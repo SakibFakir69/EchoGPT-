@@ -16,7 +16,16 @@ enum Role {
   USER
   ADMIN
 }
-
+enum SubscriptionStatus {
+  ACTIVE
+  CANCELED
+  EXPIRED
+  PAST_DUE
+}
+enum PlanType {
+  FREE
+  PREMIUM
+}
 model User {
   id        String    @id @default(uuid())
   name      String
@@ -28,6 +37,7 @@ model User {
   updatedAt DateTime  @updatedAt
   deletedAt DateTime?
   profile Profile?
+  subscription Subscription?
 
 }
 
@@ -39,3 +49,21 @@ model Profile {
   avatarUrl String?
 }
 
+
+
+
+
+model Subscription {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan   PlanType           @default(FREE)
+  status SubscriptionStatus @default(ACTIVE)
+  requestLimit Int @default(50)
+  requestsUsed Int @default(0)
+  startedAt        DateTime  @default(now())
+  currentPeriodEnd DateTime?
+  canceledAt        DateTime?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
