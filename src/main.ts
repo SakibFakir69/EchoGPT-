@@ -1,9 +1,8 @@
-
 import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module.js';
-import { ResponseInterceptor } from './common/interceptors/response.interceptor.js';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,16 +14,10 @@ async function bootstrap() {
     .addTag('echo')
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, documentFactory);4
+  SwaggerModule.setup('api', app, documentFactory);
 
-
-  app.setGlobalPrefix("/api")
-
-  app.useGlobalInterceptors(new ResponseInterceptor())
-  
-
-
-  
+  app.use(cookieParser());
+  app.setGlobalPrefix('/api');
 
   await app.listen(process.env.PORT ?? 3000);
 }
