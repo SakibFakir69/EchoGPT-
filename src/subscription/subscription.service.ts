@@ -1,6 +1,7 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { UpdatePlanDto } from './dto/update-plan.dto.js';
+
 
 const PLAN_LIMITS: Record<'FREE' | 'PREMIUM', number> = {
   FREE: 50,
@@ -9,12 +10,13 @@ const PLAN_LIMITS: Record<'FREE' | 'PREMIUM', number> = {
 
 @Injectable()
 export class SubscriptionService {
+
   constructor(private readonly prisma: PrismaService) {}
 
 
   private async getOrCreate(userId: string) {
     let subscription = await this.prisma.subscription.findUnique({ where: { userId } });
-
+  
     if (!subscription) {
       subscription = await this.prisma.subscription.create({
         data: { userId, plan: 'FREE', requestLimit: PLAN_LIMITS.FREE },
@@ -69,13 +71,12 @@ export class SubscriptionService {
     });
   }
 
-  // Call this from wherever the actual AI/chat request happens,
-  // to increment usage and enforce the limit.
+  
   async incrementUsage(userId: string) {
     const subscription = await this.getOrCreate(userId);
 
     if (subscription.requestsUsed >= subscription.requestLimit) {
-      throw new Error('Request limit exceeded'); // swap for a proper ForbiddenException in real usage
+      throw new Error('Request limit exceeded'); 
     }
 
     return this.prisma.subscription.update({
