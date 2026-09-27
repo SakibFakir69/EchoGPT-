@@ -79,14 +79,11 @@ model AIProvider {
   id          String          @id @default(uuid())
   name        String
   type        AIProviderType
-
   apiKey      String          
   baseUrl     String?
   model       String?
-
   isEnabled   Boolean         @default(true)
   isDefault   Boolean         @default(false)
-
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 
