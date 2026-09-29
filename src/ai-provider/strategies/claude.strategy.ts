@@ -20,7 +20,7 @@ export class ClaudeStrategy implements AiProviderStrategy {
           messages: [{ role: 'user', content: 'ping' }],
         }),
       });
-      // 400 still means the key authenticated fine (bad request shape, not bad auth)
+    
       if (!res.ok && res.status !== 400) throw new Error(`Status ${res.status}`);
       if (res.status === 401) throw new Error('Invalid API key');
       return { healthy: true, latencyMs: Date.now() - start };

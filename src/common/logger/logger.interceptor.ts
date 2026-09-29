@@ -13,7 +13,7 @@ export class LoggerInterceptor implements NestInterceptor {
     const req = context.switchToHttp().getRequest();
 
     console.log(
-      `REQ [${req.method}] URL [${req.originalUrl}] => user: [${req.user?.id ?? Object.values(req.user) ?? 'undefined'}]`,
+      `REQ [${req.method}] URL [${req.originalUrl}]`,
     );
 
     return next.handle().pipe(

@@ -1,7 +1,5 @@
-
-
 import { Injectable } from '@nestjs/common';
-import { AIProviderType } from '@prisma/client';
+import { AIProviderType } from '../../generated/prisma/enums.js'; 
 import { OpenAiStrategy } from './openai.strategy.js';
 import { ClaudeStrategy } from './claude.strategy.js';
 import { GeminiStrategy } from './gemini.strategy.js';
@@ -18,7 +16,7 @@ export class ProviderStrategyFactory {
   getStrategy(type: AIProviderType): AiProviderStrategy {
     const map: Record<AIProviderType, AiProviderStrategy> = {
       OPENAI: this.openai,
-      CLAUDE: this.claude,
+      ANTHROPIC: this.claude,
       GEMINI: this.gemini,
     };
     return map[type];

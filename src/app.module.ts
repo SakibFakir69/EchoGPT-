@@ -11,6 +11,7 @@ import { SubscriptionModule } from './subscription/subscription.module.js';
 import { LoggerMiddleware } from './common/logger/logger.middleware.js';
 import { LoggerInterceptor } from './common/logger/logger.interceptor.js';
 import { AiProviderModule } from './ai-provider/ai-provider.module.js';
+import { AdminModule } from './admin/admin.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -21,6 +22,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     AuthModule,
     SubscriptionModule,
     AiProviderModule,
+    AdminModule,
   ],
   controllers: [AppController],
   providers: [

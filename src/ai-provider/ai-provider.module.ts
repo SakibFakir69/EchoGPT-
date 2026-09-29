@@ -8,9 +8,14 @@ import { OpenAiStrategy } from './strategies/openai.strategy.js';
 import { ClaudeStrategy } from './strategies/claude.strategy.js';
 import { GeminiStrategy } from './strategies/gemini.strategy.js';
 import { ProviderStrategyFactory } from './strategies/strategy.factory.js';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [PrismaModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }), 
+    PrismaModule,
+    AiProviderModule,
+  ],
   controllers: [AiProviderController],
   providers: [
     AiProviderService,
@@ -19,6 +24,7 @@ import { ProviderStrategyFactory } from './strategies/strategy.factory.js';
     ClaudeStrategy,
     GeminiStrategy,
     ProviderStrategyFactory,
+
   ],
   exports: [AiProviderService],
 })

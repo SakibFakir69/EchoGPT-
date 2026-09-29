@@ -1,4 +1,4 @@
-// src/ai-provider/ai-provider.controller.ts
+
 import {
   Controller,
   Get,
@@ -12,12 +12,11 @@ import {
 import { AiProviderService } from './ai-provider.service.js';
 import { CreateProviderDto } from './dto/create-provider.dto.js';
 import { UpdateProviderDto } from './dto/update-provider.dto.js';
+import { AuthGuard } from '../auth/auth.guard.js';
 
-import { AdminGuard } from '../auth/guards/admin.guard.js';
 
-import { AuthGuard } from '@nestjs/passport';
 
-@UseGuards(AuthGuard, AdminGuard)
+@UseGuards(AuthGuard)
 @Controller('admin/ai-providers')
 export class AiProviderController {
   constructor(private readonly service: AiProviderService) {}

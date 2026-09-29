@@ -12,7 +12,7 @@ export class CreateProviderDto {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(10)
+ 
   apiKey: string;
 
   @IsOptional()

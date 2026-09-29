@@ -1,18 +1,20 @@
-// src/ai-provider/ai-provider.service.ts
+
 import {
   Injectable,
   NotFoundException,
   ConflictException,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { Prisma } from '../generated/prisma/client.js';
 import { PrismaService } from '../prisma/prisma.service.js';
 import { EncryptionService } from '../common/encryption/encryption.service.js';
 import { ProviderStrategyFactory } from './strategies/strategy.factory.js';
 import { CreateProviderDto } from './dto/create-provider.dto.js';
 import { UpdateProviderDto } from './dto/update-provider.dto.js';
+import { AIProviderType } from '../generated/prisma/enums.js'; 
 
 @Injectable()
 export class AiProviderService {
+
   constructor(
     private prisma: PrismaService,
     private encryption: EncryptionService,
@@ -20,7 +22,9 @@ export class AiProviderService {
   ) {}
 
   async create(dto: CreateProviderDto) {
-    const encryptedKey = this.encryption.encrypt(dto.apiKey);
+
+    const encryptedKey = this.encryption.encrypt(dto.apiKey );
+
     const isFirstProvider = (await this.prisma.aIProvider.count()) === 0;
 
     try {
@@ -76,6 +80,7 @@ export class AiProviderService {
 
     try {
       return await this.prisma.$transaction(async (tx) => {
+        
         if (dto.isDefault) {
           await tx.aIProvider.updateMany({ data: { isDefault: false } });
         }
@@ -89,6 +94,7 @@ export class AiProviderService {
   }
 
   async remove(id: string) {
+
     const provider = await this.findRaw(id);
     if (provider.isDefault) {
       throw new ConflictException(
